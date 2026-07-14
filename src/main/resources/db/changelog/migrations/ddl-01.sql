@@ -39,6 +39,7 @@ CREATE TABLE flight (
     airport_to    INT NOT NULL REFERENCES airports(id),
     time_out      TIMESTAMP NOT NULL,          -- плановое время вылета
     time_in       TIMESTAMP NOT NULL,          -- плановое время прилёта
+    reason_delay  TEXT,
     -- заменили плоский флаг delayed на длительность задержки в минутах:
     -- 1) флаг легко получить как delay_minutes > 0
     -- 2) компенсация по ФАП-82 зависит именно от длительности задержки,
@@ -151,6 +152,7 @@ COMMENT ON COLUMN flight.airport_from IS 'Аэропорт вылета';
 COMMENT ON COLUMN flight.airport_to IS 'Аэропорт прилёта';
 COMMENT ON COLUMN flight.time_out IS 'Плановое время вылета';
 COMMENT ON COLUMN flight.time_in IS 'Плановое время прилёта';
+COMMENT ON COLUMN flight.reason_delay IS 'Причина задержки рейса'
 COMMENT ON COLUMN flight.delay_minutes IS 'Длительность задержки рейса в минутах (0 — рейс не задержан); используется для начисления компенсации по ФАП-82 и для отчётов';
 
 COMMENT ON TABLE passenger IS 'Пассажиры, оформившие посадочные талоны';
