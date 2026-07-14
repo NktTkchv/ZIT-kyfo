@@ -1,9 +1,6 @@
 package zit.kyfo.backend.dao.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
@@ -63,7 +60,7 @@ public class AirlinesEntity extends AbstractEntity<Integer> implements Serializa
         this.passwordHash = passwordHash;
     }
 
-    @OneToMany
+    @OneToMany(mappedBy = "airlines", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     public List<FlightEntity> getFlight() {
         return this.flight;
     }
@@ -84,13 +81,12 @@ public class AirlinesEntity extends AbstractEntity<Integer> implements Serializa
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AirlinesEntity that = (AirlinesEntity) o;
-        return Objects.equals(name, that.name) && Objects.equals(login, that.login) && Objects.equals(passwordHash, that.passwordHash) && Objects.equals(flight, that.flight);
+        return Objects.equals(login, that.login);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, login, passwordHash, flight);
+        return Objects.hash(login);
     }
-
 
 }

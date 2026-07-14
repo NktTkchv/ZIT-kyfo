@@ -1,16 +1,16 @@
 package zit.kyfo.backend.dao.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-@Entity(name = "airport_entity")
-@Table(name = "airport")
+@Entity(name = "airports_entity")
+@Table(name = "airports")
 @NoArgsConstructor
 public class AirportsEntity extends AbstractEntity<Integer> implements Serializable {
 
@@ -18,12 +18,25 @@ public class AirportsEntity extends AbstractEntity<Integer> implements Serializa
     private String uniqueCode;
     private String town;
     private String address;
+    private List<FlightEntity> fromAirports;
+    private List<FlightEntity> toAirports;
 
     public AirportsEntity(String name, String uniqueCode, String town, String address) {
         setName(name);
         setUniqueCode(uniqueCode);
         setTown(town);
         setAddress(address);
+        this.fromAirports = new ArrayList<>();
+        this.toAirports = new ArrayList<>();
+    }
+
+    public AirportsEntity(String name, String uniqueCode, String town, String address, List<FlightEntity> fromAirports, List<FlightEntity> toAirports) {
+        setName(name);
+        setUniqueCode(uniqueCode);
+        setTown(town);
+        setAddress(address);
+        setFromAirports(fromAirports);
+        setToAirports(toAirports);
     }
 
     @Column(name = "name", nullable = false)
@@ -46,6 +59,16 @@ public class AirportsEntity extends AbstractEntity<Integer> implements Serializa
         return this.address;
     }
 
+    @OneToMany(mappedBy = "airportFrom", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    public List<FlightEntity> getFromAirports() {
+        return fromAirports;
+    }
+
+    @OneToMany(mappedBy = "airportTo", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    public List<FlightEntity> getToAirports() {
+        return toAirports;
+    }
+
     public void setName(@NonNull String name) {
         this.name = name;
     }
@@ -60,6 +83,14 @@ public class AirportsEntity extends AbstractEntity<Integer> implements Serializa
 
     public void setAddress(@NonNull String address) {
         this.address = address;
+    }
+
+    public void setFromAirports(@NonNull List<FlightEntity> fromAirports) {
+        this.fromAirports = fromAirports;
+    }
+
+    public void setToAirports(@NonNull List<FlightEntity> toAirports) {
+        this.toAirports = toAirports;
     }
 
     @Override
