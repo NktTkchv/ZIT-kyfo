@@ -1,8 +1,10 @@
 package zit.kyfo.backend.dao.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,22 +14,35 @@ import java.util.Objects;
 @Entity(name = "airports_entity")
 @Table(name = "airports")
 @NoArgsConstructor
+@Setter
+@Getter
 public class AirportsEntity extends AbstractEntity<Integer> implements Serializable {
 
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "unique_code", nullable = false, unique = true)
     private String uniqueCode;
+
+    @Column(name = "town")
     private String town;
+
+    @Column(name = "address")
     private String address;
-    private List<FlightEntity> fromAirports;
-    private List<FlightEntity> toAirports;
+
+    @OneToMany(mappedBy = "airportFrom", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private List<FlightEntity> departingFlights;
+
+    @OneToMany(mappedBy = "airportTo", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private List<FlightEntity> arrivingFlights;
 
     public AirportsEntity(String name, String uniqueCode, String town, String address) {
         setName(name);
         setUniqueCode(uniqueCode);
         setTown(town);
         setAddress(address);
-        this.fromAirports = new ArrayList<>();
-        this.toAirports = new ArrayList<>();
+        this.departingFlights = new ArrayList<>();
+        this.arrivingFlights = new ArrayList<>();
     }
 
     public AirportsEntity(String name, String uniqueCode, String town, String address, List<FlightEntity> fromAirports, List<FlightEntity> toAirports) {
@@ -35,62 +50,8 @@ public class AirportsEntity extends AbstractEntity<Integer> implements Serializa
         setUniqueCode(uniqueCode);
         setTown(town);
         setAddress(address);
-        setFromAirports(fromAirports);
-        setToAirports(toAirports);
-    }
-
-    @Column(name = "name", nullable = false)
-    public String getName() {
-        return this.name;
-    }
-
-    @Column(name = "unique_code", nullable = false, unique = true)
-    public String getUniqueCode() {
-        return this.uniqueCode;
-    }
-
-    @Column(name = "town")
-    public String getTown() {
-        return this.town;
-    }
-
-    @Column(name = "address")
-    public String getAddress() {
-        return this.address;
-    }
-
-    @OneToMany(mappedBy = "airportFrom", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    public List<FlightEntity> getFromAirports() {
-        return fromAirports;
-    }
-
-    @OneToMany(mappedBy = "airportTo", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    public List<FlightEntity> getToAirports() {
-        return toAirports;
-    }
-
-    public void setName(@NonNull String name) {
-        this.name = name;
-    }
-
-    public void setUniqueCode(@NonNull String uniqueCode) {
-        this.uniqueCode = uniqueCode;
-    }
-
-    public void setTown(@NonNull String town) {
-        this.town = town;
-    }
-
-    public void setAddress(@NonNull String address) {
-        this.address = address;
-    }
-
-    public void setFromAirports(@NonNull List<FlightEntity> fromAirports) {
-        this.fromAirports = fromAirports;
-    }
-
-    public void setToAirports(@NonNull List<FlightEntity> toAirports) {
-        this.toAirports = toAirports;
+        setDepartingFlights(fromAirports);
+        setArrivingFlights(toAirports);
     }
 
     @Override

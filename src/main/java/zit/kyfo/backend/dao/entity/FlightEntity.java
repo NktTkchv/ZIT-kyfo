@@ -1,7 +1,9 @@
 package zit.kyfo.backend.dao.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -9,90 +11,53 @@ import java.time.ZonedDateTime;
 @Entity(name = "flight_entity")
 @Table(name = "flight")
 @NoArgsConstructor
+@Setter
+@Getter
 public class FlightEntity extends AbstractEntity<Integer> implements Serializable {
-
-    private AirlinesEntity airlines;
-    private String airplane;
-    private AirportsEntity airportFrom;
-    private AirportsEntity airportTo;
-    private ZonedDateTime timeOut;
-    private ZonedDateTime timeIn;
-    private Integer delayMinutes;
-    private String reasonDelay;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
-    public AirlinesEntity getAirlines() {
-        return this.airlines;
-    }
+    private AirlinesEntity airline;
 
     @Column(name = "airplane", length = 100)
-    public String getAirplane() {
-        return airplane;
-    }
+    private String airplane;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "airport_from", nullable = false)
-    public AirportsEntity getAirportFrom() {
-        return airportFrom;
-    }
+    private AirportsEntity airportFrom;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "airport_to", nullable = false)
-    public AirportsEntity getAirportTo() {
-        return airportTo;
-    }
+    private AirportsEntity airportTo;
 
     @Column(name = "time_out", nullable = false)
-    public ZonedDateTime getTimeOut() {
-        return timeOut;
-    }
+    private ZonedDateTime timeOut;
 
     @Column(name = "time_in", nullable = false)
-    public ZonedDateTime getTimeIn() {
-        return timeIn;
-    }
+    private ZonedDateTime timeIn;
 
     @Column(name = "delay_minutes", nullable = false)
-    public Integer getDelayMinutes() {
-        return delayMinutes;
-    }
+    private Integer delayMinutes;
 
     @Column(name = "reason_delay")
-    public String getReasonDelay() {
-        return reasonDelay;
-    }
+    private String reasonDelay;
 
-    public void setAirlines(AirlinesEntity airlines) {
-        this.airlines = airlines;
-    }
-
-    public void setAirplane(String airplane) {
+    public FlightEntity(AirlinesEntity airline,
+                        String airplane,
+                        AirportsEntity airportFrom,
+                        AirportsEntity airportTo,
+                        Integer delayMinutes,
+                        String reasonDelay,
+                        ZonedDateTime timeIn,
+                        ZonedDateTime timeOut) {
+        this.airline = airline;
         this.airplane = airplane;
-    }
-
-    public void setAirportFrom(AirportsEntity airportFrom) {
         this.airportFrom = airportFrom;
-    }
-
-    public void setAirportTo(AirportsEntity airportTo) {
         this.airportTo = airportTo;
-    }
-
-    public void setTimeOut(ZonedDateTime timeOut) {
-        this.timeOut = timeOut;
-    }
-
-    public void setTimeIn(ZonedDateTime timeIn) {
-        this.timeIn = timeIn;
-    }
-
-    public void setDelayMinutes(Integer delayMinutes) {
         this.delayMinutes = delayMinutes;
-    }
-
-    public void setReasonDelay(String reasonDelay) {
         this.reasonDelay = reasonDelay;
+        this.timeIn = timeIn;
+        this.timeOut = timeOut;
     }
 }
 

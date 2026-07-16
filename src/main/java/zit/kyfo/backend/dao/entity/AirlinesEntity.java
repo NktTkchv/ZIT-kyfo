@@ -1,8 +1,9 @@
 package zit.kyfo.backend.dao.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,68 +13,41 @@ import java.util.Objects;
 @Entity(name = "airlines_entity")
 @Table(name = "airlines")
 @NoArgsConstructor
+@Setter
+@Getter
 public class AirlinesEntity extends AbstractEntity<Integer> implements Serializable {
 
+    @Column(name = "name", nullable = false)
     String name;
+
+    @Column(name = "login", nullable = false, unique = true)
     String login;
+
+    @Column(name = "password_hash", nullable = false)
     String passwordHash;
-    List<FlightEntity> flight;
+
+    @OneToMany(mappedBy = "airline", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    List<FlightEntity> flights;
 
     public AirlinesEntity(String name, String login, String passwordHash) {
         setName(name);
         setLogin(login);
         setPasswordHash(passwordHash);
-        this.flight = new ArrayList<>();
+        this.flights = new ArrayList<>();
     }
 
-    public AirlinesEntity(String name, String login, String passwordHash, List<FlightEntity> flight) {
+    public AirlinesEntity(String name, String login, String passwordHash, List<FlightEntity> flights) {
         setName(name);
         setLogin(login);
         setPasswordHash(passwordHash);
-        setFlight(flight);
-    }
-
-    @Column(name = "name", nullable = false)
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(@NonNull String name) {
-        this.name = name;
-    }
-
-    @Column(name = "login", nullable = false, unique = true)
-    public String getLogin() {
-        return this.login;
-    }
-
-    public void setLogin(@NonNull String login) {
-        this.login = login;
-    }
-
-    @Column(name = "password_hash", nullable = false)
-    public String getPasswordHash() {
-        return this.passwordHash;
-    }
-
-    public void setPasswordHash(@NonNull String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
-    @OneToMany(mappedBy = "airlines", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    public List<FlightEntity> getFlight() {
-        return this.flight;
-    }
-
-    public void setFlight(@NonNull List<FlightEntity> flight) {
-        this.flight = flight;
+        setFlights(flights);
     }
 
     public boolean addFlight(FlightEntity flight) {
         if (flight == null) {
             throw new IllegalArgumentException("Flight cannot be null");
         }
-        return this.flight.add(flight);
+        return this.flights.add(flight);
     }
 
     @Override

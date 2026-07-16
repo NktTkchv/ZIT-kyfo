@@ -4,19 +4,17 @@ package zit.kyfo.backend.dao.entity;
 // * {@link BaseEntity} и {@link Entity}
 
 import jakarta.persistence.*;
-
+import lombok.Getter;
 import java.io.Serializable;
 
+@MappedSuperclass
+@Getter
 public abstract class AbstractEntity<ID extends Serializable> {
-
-    protected ID id;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public ID getId() {
-        return this.id;
-    }
+    protected ID id;
 
     protected void setId(ID id) {
         if (id == null) {
