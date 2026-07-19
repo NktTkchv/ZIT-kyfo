@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import zit.kyfo.backend.dto.other.PaymentRequestDto;
 import zit.kyfo.backend.dto.other.PaymentResponseDto;
 import zit.kyfo.backend.service.FlightsService;
 import zit.kyfo.backend.service.ServicePointService;
@@ -49,11 +50,12 @@ public class ServicePointsController {
             @ApiResponse(responseCode = "409", description = "Недостаточно средств на балансе для списания (или талон уже аннулирован).")
     })
     @PostMapping("/pay")
-    public ResponseEntity<PaymentResponseDto> pay(@RequestBody PaymentResponseDto request) {
+    public ResponseEntity<PaymentResponseDto> pay(@RequestBody PaymentRequestDto request) {
         PaymentResponseDto response = ticketService.processPayment(
                 request.getTicketNumber(),
-                request.getAmount()
+                request.getAmount(),
+                request.getServicePointId()
         );
-        return ResponseEntity.ok(request);
+        return ResponseEntity.ok(response);
     }
 }

@@ -22,6 +22,7 @@ INSERT INTO service_points (id, name, airport_id, contact_phone, is_active) OVER
     (17, 'Кофейня «Самара»', 14, '+7 (846) 777-88-01', TRUE),
     (18, 'Кафе «Транзит»', 8, '+7 (863) 111-22-02', TRUE),
     (19, 'Бистро «Кубань»', 9, '+7 (861) 222-33-02', FALSE),
-    (20, 'Кафе «Ночной рейс»', 1, '+7 (495) 123-45-03', TRUE);
+    (20, 'Кафе «Ночной рейс»', 1, '+7 (495) 123-45-03', TRUE),
+    (21, 'Системное начисления', 214, null, TRUE);
 
 SELECT setval(pg_get_serial_sequence('service_points', 'id'), (SELECT MAX(id) FROM service_points));

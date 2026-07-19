@@ -14,5 +14,6 @@ public class PaymentResponseDto {
     private String message;
     private String ticketNumber;
     private BigDecimal amount;
+    private Integer servicePoint;
     private BigDecimal newBalance;
 }

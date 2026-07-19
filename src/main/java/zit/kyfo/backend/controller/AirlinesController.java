@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import zit.kyfo.backend.dto.flights.FlightDto;
 import zit.kyfo.backend.dto.other.RestoreDto;
 import zit.kyfo.backend.dto.other.TopUpProcessDto;
+import zit.kyfo.backend.dto.other.TopUpRequestsDto;
 import zit.kyfo.backend.dto.servicePoints.ServicePointDto;
 import zit.kyfo.backend.dto.ticket.TicketDto;
 import zit.kyfo.backend.service.FlightsService;
@@ -104,8 +105,8 @@ public class AirlinesController {
             @ApiResponse(responseCode = "404", description = "Рейс не найден")
     })
     @PostMapping("/flights/{id}/payment/processTopUp")
-    public ResponseEntity<TopUpProcessDto> processTopUp(@PathVariable("id") Integer id, @RequestBody BigDecimal amount) {
-        return ResponseEntity.ok(ticketService.processTopUp(id, amount));
+    public ResponseEntity<TopUpProcessDto> processTopUp(@PathVariable("id") Integer id, @RequestBody TopUpRequestsDto request) {
+        return ResponseEntity.ok(ticketService.processTopUp(id, request.getAmount(), request.getServicePointId()));
     }
     //
 
