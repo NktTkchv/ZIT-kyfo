@@ -52,7 +52,6 @@ jobs:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/kyfo_db
           SPRING_DATASOURCE_USERNAME: postgres
           SPRING_DATASOURCE_PASSWORD: postgres
-          SPRING_LIQUIBASE_ENABLED: "false"
         run: ./gradlew build
 
       - name: Show container logs on failure

@@ -107,7 +107,7 @@ CREATE TABLE transaction (
     amount            NUMERIC(10,2) NOT NULL CHECK (amount > 0),
     -- явно ограничили допустимые типы операции: пополнение (при задержке)
     -- и покупка (списание в кафе/точке обслуживания)
-    type              VARCHAR(20) NOT NULL CHECK (type IN ('topup', 'purchase')),
+    type              VARCHAR(20) NOT NULL CHECK (type IN ('topUp', 'purchase')),
     created_at        TIMESTAMP NOT NULL DEFAULT now()
 );
 
