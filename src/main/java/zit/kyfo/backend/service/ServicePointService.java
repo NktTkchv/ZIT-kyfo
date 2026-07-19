@@ -3,6 +3,7 @@ package zit.kyfo.backend.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import zit.kyfo.backend.dao.entity.AirlinesEntity;
 import zit.kyfo.backend.dao.entity.ServicePointEntity;
 import zit.kyfo.backend.dao.repository.ServicePointRepository;
 import zit.kyfo.backend.dto.servicePoints.ServicePointDto;
@@ -11,7 +12,7 @@ import zit.kyfo.backend.dto.servicePoints.ServicePointDto;
 @RequiredArgsConstructor
 public class ServicePointService {
 
-    private ServicePointRepository servicePointRepository;
+    private final ServicePointRepository servicePointRepository;
 
     @Transactional
     public ServicePointDto validatePoint(int pointId) {
@@ -24,6 +25,10 @@ public class ServicePointService {
         return mapToDto(saved);
     }
 
+    public ServicePointEntity findEntityById(int id) {
+        return servicePointRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Точка обслуживания с id " + id + " не найдена"));
+    }
 
     private ServicePointDto mapToDto(ServicePointEntity entity) {
         ServicePointDto dto = new ServicePointDto();
