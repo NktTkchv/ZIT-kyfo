@@ -19,7 +19,7 @@ class ServicePointRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     void count_returnsTwentySeededServicePoints() {
-        assertThat(servicePointRepository.count()).isEqualTo(20L);
+        assertThat(servicePointRepository.count()).isEqualTo(21L);
     }
 
     @Test

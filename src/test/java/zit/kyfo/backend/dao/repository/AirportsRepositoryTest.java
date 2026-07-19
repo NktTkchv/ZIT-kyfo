@@ -15,7 +15,7 @@ class AirportsRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     void count_returnsFourteenSeededAirports() {
-        assertThat(airportsRepository.count()).isEqualTo(14L);
+        assertThat(airportsRepository.count()).isEqualTo(15L);
     }
 
     @Test
