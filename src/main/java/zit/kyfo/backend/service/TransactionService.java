@@ -18,12 +18,12 @@ import java.time.LocalDateTime;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
-    private final ServicePointRepository servicePointRepository;
+
+    private final ServicePointService servicePointService;
 
     @Transactional
     public TransactionEntity createTopUpTransaction(TicketEntity ticket, BigDecimal amount, int servicePointId) {
-        ServicePointEntity servicePoint = servicePointRepository.findById(servicePointId)
-                .orElseThrow(() -> new RuntimeException("Точка обслуживания не найдена"));
+        ServicePointEntity servicePoint = servicePointService.findEntityById(servicePointId);
 
         TransactionEntity transaction = new TransactionEntity();
         transaction.setTicket(ticket);
@@ -36,8 +36,7 @@ public class TransactionService {
 
     @Transactional
     public TransactionEntity createPurchaseTransaction(TicketEntity ticket, BigDecimal amount, int servicePointId) {
-        ServicePointEntity servicePoint = servicePointRepository.findById(servicePointId)
-                .orElseThrow(() -> new RuntimeException("Точка обслуживания не найдена"));
+        ServicePointEntity servicePoint = servicePointService.findEntityById(servicePointId);
 
         TransactionEntity transaction = new TransactionEntity();
         transaction.setTicket(ticket);
