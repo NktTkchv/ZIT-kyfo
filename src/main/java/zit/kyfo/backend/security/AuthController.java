@@ -38,8 +38,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final AirlinesRepository airlinesRepository;
-    private final SecurityContextRepository securityContextRepository =
-            new HttpSessionSecurityContextRepository();
+    private final SecurityContextRepository securityContextRepository; // внедрён как бин в основном конфиге
 
     @Operation(summary = "Логин в систему", description = "Возвращает cookie для авторизации в системе")
     @ApiResponses(value = {
@@ -59,8 +58,7 @@ public class AuthController {
             SecurityContextHolder.setContext(context);
             securityContextRepository.saveContext(context, httpRequest, httpResponse);
 
-            AirlinesEntity airline = airlinesRepository.findByLogin(request.login())
-                    .orElseThrow(() -> new BadCredentialsException("Invalid login or password"));
+            AirlinesUserDetails airline = (AirlinesUserDetails) authentication.getPrincipal();
 
             log.info("Auth controller did his work");
             return ResponseEntity.ok(new LoginResponse(

@@ -27,10 +27,11 @@ public class AirlineUserDetailsService implements UserDetailsService {
         AirlinesEntity airline = airlinesRepository.findByLogin(login)
                 .orElseThrow(() -> new UsernameNotFoundException("Airline not found: " + login));
         log.info("Airline entity created");
-        return new User(
+        return new AirlinesUserDetails(
+                airline.getId(),
+                airline.getName(),
                 airline.getLogin(),
-                airline.getPasswordHash(),
-                List.of(new SimpleGrantedAuthority(AIRLINE_ROLE))
+                airline.getPasswordHash()
         );
     }
 }
