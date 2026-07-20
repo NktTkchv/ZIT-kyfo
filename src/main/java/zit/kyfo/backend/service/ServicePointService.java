@@ -1,6 +1,6 @@
 package zit.kyfo.backend.service;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import zit.kyfo.backend.dao.entity.AirlinesEntity;

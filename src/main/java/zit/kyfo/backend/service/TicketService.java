@@ -1,13 +1,12 @@
 package zit.kyfo.backend.service;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import zit.kyfo.backend.dao.entity.AirlinesEntity;
 import zit.kyfo.backend.dao.entity.FlightEntity;
 import zit.kyfo.backend.dao.entity.TicketEntity;
 import zit.kyfo.backend.dao.repository.TicketRepository;
-import zit.kyfo.backend.dto.flights.FlightDto;
 import zit.kyfo.backend.dto.other.PaymentResponseDto;
 import zit.kyfo.backend.dto.other.RestoreDto;
 import zit.kyfo.backend.dto.other.TopUpProcessDto;
