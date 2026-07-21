@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import zit.kyfo.backend.dto.flights.CurrentDelayDto;
 import zit.kyfo.backend.dto.flights.FlightDto;
 import zit.kyfo.backend.dto.other.RestoreDto;
 import zit.kyfo.backend.dto.other.TopUpProcessDto;
@@ -156,5 +157,18 @@ public class AirlinesController {
     @GetMapping(path = "/relatedServicePoints", params = "uniqueCode")
     public ResponseEntity<?> findRelatedCafesByAirportCode(@Param("uniqueCode") String uniqueCode) {
         return ResponseEntity.ok(this.servicePointService.findAllByAirportUniqueCode(uniqueCode));
+    }
+    //
+    @Operation(
+            summary = "Текущая задержка рейса",
+            description = "Возвращает текущую задержку рейса. Если задержка уже зафиксирована в базе, возвращает сохраненное значение"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Задержка рассчитана"),
+            @ApiResponse(responseCode = "404", description = "Рейс не найден")
+    })
+    @GetMapping("/flights/{id}/current-delay")
+    public ResponseEntity<CurrentDelayDto> getCurrentDelay(@PathVariable("id") Integer flightId) {
+        return ResponseEntity.ok(flightsService.getCurrentDelayMinutes(flightId));
     }
 }
